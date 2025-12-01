@@ -21,10 +21,9 @@ export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : null);
     const [token, setToken] = useState(localStorage.getItem("userToken"));
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setLoading(true)
         const storedToken = localStorage.getItem("userToken");
         const storedUser = localStorage.getItem("userData")
 
@@ -93,11 +92,19 @@ export const AuthProvider = ({ children }) => {
 
     }
 
+    const logout = () => {
+        setToken(null);
+        setUser(null);
+        localStorage.removeItem("userToken");
+        localStorage.removeItem("userData");
+    }
 
     const contextValue = {
         register,
         login,
-        isAuthenticated
+        isAuthenticated,
+        loading,
+        logout
     }
 
     return (
